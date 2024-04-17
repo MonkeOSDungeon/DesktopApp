@@ -18,6 +18,12 @@ class Detector:
         self.box_annotator = sv.BoundingBoxAnnotator(thickness=4)
         self.zone_annotator = sv.PolygonZoneAnnotator(zone=self.zone, color=sv.Color.GREEN, \
                                                       thickness=2, text_thickness=1, text_scale=1 )
+        
+    def change_zone(self, cords: np.ndarray):
+        self.zone = sv.PolygonZone(polygon=cords, frame_resolution_wh=self.resolution)
+        self.box_annotator = sv.BoundingBoxAnnotator(thickness=4)
+        self.zone_annotator = sv.PolygonZoneAnnotator(zone=self.zone, color=sv.Color.GREEN, \
+                                                      thickness=2, text_thickness=1, text_scale=1 )
     
     def detect(self, frame)->bool:
         '''
@@ -34,7 +40,7 @@ class Detector:
         results = self.model(frame)
         detections = sv.Detections.from_yolov5(results)
         detections = detections[detections.confidence > 0.4]
-        trig_arr = self.zone.trigger(detections=detections)
+        trig_arr = self.zone.trigger(detections)
         people = np.sum(trig_arr == True)
 
         frame = self.box_annotator.annotate(scene=frame, detections=detections)

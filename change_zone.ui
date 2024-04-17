@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Zone_changing</class>
+ <widget class="QDialog" name="Zone_changing">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>402</width>
+    <height>311</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Изменение параметров зоны</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(81, 0, 135, 255), stop:0.427447 rgba(41, 61, 132, 235), stop:1 rgba(155, 79, 165, 255));</string>
+  </property>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>381</width>
+     <height>291</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(255, 255, 255, 30);
+border: 1px solid rgba(255, 255, 255, 40);
+border-radius: 7px</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="lbl_description">
+          <property name="styleSheet">
+           <string notr="true">font-size: 14px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+          </property>
+          <property name="text">
+           <string>Введите значения координат для каждого угла зоны
+значения должны быть целыми числами 
+                     0 &lt; x &lt; 1280   0 &lt; y &lt; 720 </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="1" column="0">
+           <widget class="QLineEdit" name="le_left_top_cords">
+            <property name="styleSheet">
+             <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Введите через пробел</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="le_right_top_cords">
+            <property name="styleSheet">
+             <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Введите через пробел</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLineEdit" name="le_left_bottom_cords">
+            <property name="styleSheet">
+             <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Введите через пробел</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="le_right_bottom_cords">
+            <property name="styleSheet">
+             <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="placeholderText">
+             <string>Введите через пробел</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="lbl_right_top">
+            <property name="styleSheet">
+             <string notr="true">font-size: 12px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+            </property>
+            <property name="text">
+             <string>Введите значение координат
+правого верхнего угла зоны</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lbl_left_top">
+            <property name="styleSheet">
+             <string notr="true">font-size: 12px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+            </property>
+            <property name="text">
+             <string>Введите значение координат
+левого верхнего угла зоны</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="lbl_left_bottom">
+            <property name="styleSheet">
+             <string notr="true">font-size: 12px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+            </property>
+            <property name="text">
+             <string>Введите значение координат
+левого нижнего угла зоны</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLabel" name="lbl_right_bottom">
+            <property name="styleSheet">
+             <string notr="true">font-size: 12px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+            </property>
+            <property name="text">
+             <string>Введите значение координат
+правого нижнего угла зоны</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btn_save_zone">
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+	color: white;
+	background-color: rgba(255, 255, 255, 30);
+	border: 1px solid rgba(255, 255, 255, 40);
+	border-radius: 7px;
+	width: 230px;
+	height: 50px
+}
+QPushButton:hover {
+	background-color: rgba(255, 255, 255, 40);
+}
+QPushButton:pressed {
+	background-color: rgba(255, 255, 255, 70);
+}</string>
+        </property>
+        <property name="text">
+         <string>Сохранить изменения</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

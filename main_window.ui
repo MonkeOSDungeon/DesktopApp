@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1300</width>
+    <width>1262</width>
     <height>825</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>MonkeOS-team</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(80, 80, 80);</string>
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(81, 0, 135, 255), stop:0.427447 rgba(41, 61, 132, 235), stop:1 rgba(155, 79, 165, 255));</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="activate_people_detector">
@@ -27,7 +27,20 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(110, 110, 110);</string>
+     <string notr="true">QPushButton {
+	color: white;
+	background-color: rgba(255, 255, 255, 30);
+	border: 1px solid rgba(255, 255, 255, 40);
+	border-radius: 7px;
+	width: 230px;
+	height: 50px
+}
+QPushButton:hover {
+	background-color: rgba(255, 255, 255, 40);
+}
+QPushButton:pressed {
+	background-color: rgba(255, 255, 255, 70);
+}</string>
     </property>
     <property name="text">
      <string>Включить 
@@ -57,11 +70,28 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1300</width>
+     <width>1262</width>
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="settings">
+    <property name="title">
+     <string>&amp;Настройки</string>
+    </property>
+    <addaction name="menu_change_zone"/>
+   </widget>
+   <addaction name="settings"/>
   </widget>
+  <action name="menu_change_zone">
+   <property name="text">
+    <string>&amp;Изменить зонирование</string>
+   </property>
+  </action>
+  <action name="actionst">
+   <property name="text">
+    <string>st</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
