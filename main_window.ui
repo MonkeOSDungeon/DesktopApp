@@ -17,17 +17,11 @@
    <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(81, 0, 135, 255), stop:0.427447 rgba(41, 61, 132, 235), stop:1 rgba(155, 79, 165, 255));</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="activate_people_detector">
-    <property name="geometry">
-     <rect>
-      <x>573</x>
-      <y>735</y>
-      <width>155</width>
-      <height>65</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton {
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="2">
+     <widget class="QPushButton" name="activate_people_detector">
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
 	color: white;
 	background-color: rgba(255, 255, 255, 30);
 	border: 1px solid rgba(255, 255, 255, 40);
@@ -41,29 +35,65 @@ QPushButton:hover {
 QPushButton:pressed {
 	background-color: rgba(255, 255, 255, 70);
 }</string>
-    </property>
-    <property name="text">
-     <string>Включить 
+      </property>
+      <property name="text">
+       <string>Включить 
 распознавание людей 
 на видео</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="video_stream">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>1280</width>
-      <height>720</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>455</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="comboBox">
+      <item>
+       <property name="text">
+        <string>Камера 1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Камера 2</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>454</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="0" column="0" colspan="4">
+     <widget class="QLabel" name="video_stream">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -74,22 +104,27 @@ QPushButton:pressed {
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="settings">
+   <widget class="QMenu" name="menu">
     <property name="title">
-     <string>&amp;Настройки</string>
+     <string>&amp;Меню</string>
     </property>
-    <addaction name="menu_change_zone"/>
+    <addaction name="settings"/>
    </widget>
-   <addaction name="settings"/>
+   <addaction name="menu"/>
   </widget>
-  <action name="menu_change_zone">
+  <action name="settings">
    <property name="text">
-    <string>&amp;Изменить зонирование</string>
+    <string>&amp;Настройки</string>
    </property>
   </action>
   <action name="actionst">
    <property name="text">
     <string>st</string>
+   </property>
+  </action>
+  <action name="action1">
+   <property name="text">
+    <string>1</string>
    </property>
   </action>
  </widget>

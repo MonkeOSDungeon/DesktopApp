@@ -7,9 +7,6 @@ import torch
 
 class Detector:
     def __init__ (self, resolution: tuple[int,int], zone: np.ndarray ):
-        '''
-        args
-        '''
         self.resolution = resolution
         self.zone = sv.PolygonZone(polygon=zone, frame_resolution_wh=resolution)
 
