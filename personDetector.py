@@ -33,7 +33,8 @@ class Detector:
                 was a person detected in the zone
 
         '''
-        frame = cv2.resize(frame, self.resolution)
+        
+        #frame = cv2.resize(frame, self.resolution)
         results = self.model(frame)
         detections = sv.Detections.from_yolov5(results)
         detections = detections[detections.confidence > 0.4]
@@ -43,4 +44,4 @@ class Detector:
         frame = self.box_annotator.annotate(scene=frame, detections=detections)
         frame = self.zone_annotator.annotate(scene=frame)
 
-        return (people > 0, frame)
+        return (people > 0, frame, self.box_annotator, self.zone_annotator, detections)
