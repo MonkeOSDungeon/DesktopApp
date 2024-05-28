@@ -1,6 +1,7 @@
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
 from PySide6.QtWidgets import QApplication, QTableView
 from PySide6.QtCore import Qt
+from camera import Camera
 import os
 import sys
 
@@ -19,7 +20,24 @@ class Data:
             
         if not self.db.open():
             raise Exception(f"Cannot open database: {self.db.lastError().text()}")
+
+    def get_cameras(self) -> list[Camera]:
+        query = QSqlQuery(self.db)
+        if not query.exec('select * from cameras'):
+            raise Exception(f"Query error: {query.lastError().text()}")
         
+        cameras = []
+        while query.next():
+            connection_string = query.value('connection_string')
+            name = query.value('description')
+            fps = query.value('fps')
+            resolution = tuple(map(int, query.value('resolution').split()))
+
+            print(f'connection value: {connection_string} \t type: {type(connection_string)}')
+            cameras.append(Camera(connection_string, name, fps, resolution))
+
+        return cameras
+
     def execute_query(self, query_text, params=None):
         query = QSqlQuery(self.db)
         query.prepare(query_text)
@@ -66,25 +84,25 @@ class Data:
     def create_tables(self):
         query = QSqlQuery(self.db)
         if not query.exec('''
-        CREATE TABLE IF NOT EXISTS cameras (
-            id SERIAL PRIMARY KEY,
-            connection_string TEXT NOT NULL,
-            description TEXT,
-            fps INTEGER,
-            resolution TEXT
-        );
-        '''):
-            print(f"Failed to create cameras table: {query.lastError().text()}")
+            CREATE TABLE IF NOT EXISTS cameras (
+                id SERIAL PRIMARY KEY,
+                connection_string TEXT NOT NULL,
+                description TEXT,
+                fps INTEGER,
+                resolution TEXT
+            );
+            '''):
+            raise Exception(f"Failed to create cameras table: {query.lastError().text()}")
 
         if not query.exec('''
-        CREATE TABLE IF NOT EXISTS zones (
-            id SERIAL PRIMARY KEY,
-            camera_id INTEGER REFERENCES cameras(id) ON DELETE CASCADE,
-            coordinates TEXT NOT NULL,
-            description TEXT
-        );
-        '''):
-            print(f"Failed to create zones table: {query.lastError().text()}")
+            CREATE TABLE IF NOT EXISTS zones (
+                id SERIAL PRIMARY KEY,
+                camera_id INTEGER REFERENCES cameras(id) ON DELETE CASCADE,
+                coordinates TEXT NOT NULL,
+                description TEXT
+            );
+            '''):
+            raise Exception(f"Failed to create zones table: {query.lastError().text()}")
 
     def add_camera(self, 
                    connection_string, fps, 
@@ -98,6 +116,11 @@ class Data:
             ':fps': fps,
             ':resolution': resolution
         })
+
+    def add_zone_exec(self, camera_id: int, coordinates: str, description: str=None):
+        query = QSqlQuery(self.db)
+        if not query.exec(f'''INSERT INTO zones (camera_id, coordinates, description) VALUES (\'{camera_id}\', \'{coordinates}\', \'{description}\');'''):
+            raise Exception(f"Query error: {query.lastError().text()}")
 
     def add_zone(self, camera_id: int, coordinates: str, description: str=None):
         self.execute_query('''

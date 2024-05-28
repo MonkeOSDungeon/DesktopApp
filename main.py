@@ -142,7 +142,8 @@ class HumanDetectorDesktopApp(QMainWindow):
         self.activate_detector_every_n_frames = 5
 
         #TODO : подгрузка камер с БД
-        self.cameras = [Camera(first_camera_path, 30, (1280, 720))]
+        self.cameras = self.data.get_cameras()
+        #self.cameras = [Camera(first_camera_path, 30, (1280, 720))]
         self.cap = self.cameras[0].cap
         #self.cap = cv2.VideoCapture(first_camera_path)
         #self.cap = cv2.VideoCapture('udp://192.168.126.228:40002', cv2.CAP_FFMPEG)
