@@ -150,7 +150,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MonkeOS-team", None))
-        self.settings.setText(QCoreApplication.translate("MainWindow", u"&\u041e\u0431\u0449\u0438\u0435 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
+        self.settings.setText(QCoreApplication.translate("MainWindow", u"&\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u043f\u043e\u0447\u0442\u044b", None))
         self.actionst.setText(QCoreApplication.translate("MainWindow", u"st", None))
         self.action1.setText(QCoreApplication.translate("MainWindow", u"1", None))
         self.cameras_settings.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u043a\u0430\u043c\u0435\u0440", None))

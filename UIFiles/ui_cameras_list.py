@@ -23,7 +23,7 @@ class Ui_CamerasWindow(object):
     def setupUi(self, CamerasWindow):
         if not CamerasWindow.objectName():
             CamerasWindow.setObjectName(u"CamerasWindow")
-        CamerasWindow.resize(644, 312)
+        CamerasWindow.resize(622, 312)
         CamerasWindow.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(81, 0, 135, 255), stop:0.427447 rgba(41, 61, 132, 235), stop:1 rgba(155, 79, 165, 255));\n"
 "")
         self.verticalLayout = QVBoxLayout(CamerasWindow)

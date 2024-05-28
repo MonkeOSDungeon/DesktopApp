@@ -178,7 +178,7 @@ QComboBox:item:checked
   </widget>
   <action name="settings">
    <property name="text">
-    <string>&amp;Общие настройки</string>
+    <string>&amp;Настройки почты</string>
    </property>
   </action>
   <action name="actionst">

@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtCore import QObject, QThread, Signal, Slot, Qt
 from PySide6.QtSql import QSqlTableModel
 from UIFiles.ui_main_window import Ui_MainWindow
-from UIFiles.ui_change_zone import Ui_ZoneChanging
+from UIFiles.ui_change_email import Ui_EmailChanging
 from UIFiles.ui_add_edit_camera import Ui_AddEditCamera
 from UIFiles.ui_cameras_list import Ui_CamerasWindow
 from personDetector import Detector
@@ -236,6 +236,8 @@ class HumanDetectorDesktopApp(QMainWindow):
         if sender.text() == 'Добавить камеру':
             self.ui_add_edit_camera.btn_save_camera.clicked.connect(self.add_new_camera)
         else:
+            self.db
+            self.ui_add_edit_camera.le_ip.setText(self.db)
             self.ui_add_edit_camera.btn_save_camera.clicked.connect(self.edit_curr_camera)
 
     def view_data(self):
@@ -267,7 +269,7 @@ class HumanDetectorDesktopApp(QMainWindow):
         and some more things will be added)
         '''
         self.settings_window = QtWidgets.QDialog()
-        self.ui_settings_window = Ui_ZoneChanging()
+        self.ui_settings_window = Ui_EmailChanging()
         self.ui_settings_window.setupUi(self.settings_window)
         self.ui_settings_window.btn_save_zone.clicked.connect(self.save_new_cords)
 

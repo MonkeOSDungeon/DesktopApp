@@ -5,7 +5,7 @@ Desktop application for Operating System subject in SSAU \
 convert .ui to .py
 
 ```shell
-pyside6-uic change_zone.ui -o ui_change_zone.py
+pyside6-uic change_email.ui -o ui_change_email.py
 pyside6-uic main_window.ui -o ui_main_window.py
 pyside6-uic add_edit_camera.ui -o ui_add_edit_camera.py
 pyside6-uic cameras_list.ui -o ui_cameras_list.py
