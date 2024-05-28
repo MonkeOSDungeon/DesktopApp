@@ -5,13 +5,15 @@ from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtCore import QObject, QThread, Signal, Slot, Qt
 from PySide6.QtSql import QSqlTableModel
 from UIFiles.ui_main_window import Ui_MainWindow
-from UIFiles.ui_change_email import Ui_EmailChanging
+from UIFiles.ui_change_email import Ui_EmailPathChanging
 from UIFiles.ui_add_edit_camera import Ui_AddEditCamera
 from UIFiles.ui_cameras_list import Ui_CamerasWindow
 from personDetector import Detector
 from email_server import Email_server
 from camera import Camera
 from connection import Data
+import socket
+import struct
 import numpy as np
 import sys
 import cv2
@@ -22,8 +24,19 @@ import supervision as sv
 
 class VideoThread(QThread):
     change_pixmap_signal = Signal(np.ndarray)
-    def __init__(self, detector: Detector, is_active_detector: bool, activate_detector_every_n_frames: int):
+    def __init__(self, detector: Detector, is_active_detector: bool, 
+                 activate_detector_every_n_frames: int, video_path: str = 'data/videos/', server_ip: str = '192.168.18.228', server_port: int = 8000):
         super().__init__()
+        
+        # socket for sending video to the client
+        self.server_ip = server_ip
+        self.server_port = server_port
+        self.client_socket = None
+        self.client_connected = False
+
+        # path to store videos
+        self.video_path = video_path
+
         # person detector based on YOLOv5 nano
         self.detector = detector
         # cv2 video capture
@@ -63,6 +76,9 @@ class VideoThread(QThread):
         '''
         self.is_active_detector = is_active
 
+    def set_video_path(self, path):
+        self.video_path = path
+
     def save(self, frame: np.ndarray) -> None:
         '''
         add frame to video. 
@@ -79,12 +95,44 @@ class VideoThread(QThread):
         self.video_writer.release()
         #cv2.destroyAllWindows()
 
+    def send_frame(self, frame):
+        _, buffer = cv2.imencode('.jpg', frame)
+        data = buffer.tobytes()
+        size = len(data)
+        try:
+            self.client_socket.sendall(struct.pack(">L", size) + data)
+        except (BrokenPipeError, ConnectionResetError):
+            self.client_socket.close()
+            self.client_connected = False
+            print("Client disconnected")
+            raise BrokenPipeError
+
+    def stop(self):
+        self.running = False
+
     def run(self):
-        last_send = time.time()
+        server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        server_socket.bind((self.server_ip, self.server_port))
+        server_socket.listen(1)
+        
+        print(f"Listening for connection on {self.server_ip}:{self.server_port}")
+
+        last_send = 0
         frame_num = 0
         NOTIFICATION_FREQ = 300
-        while True:
-            if self.camera is not None and self.camera.cap.isOpened():
+        self.running = True
+        while self.running:
+            if not isinstance(self.camera, Camera) or not self.camera.cap.isOpened():
+                continue
+            try:
+                self.client_socket, _ = server_socket.accept()
+                self.client_connected = True
+                print("Client connected")
+            except socket.timeout:
+                pass
+            
+            while self.client_connected and self.camera is not None and self.camera.cap.isOpened():
                 frame = self.camera.read()
 
                 frame_num += 1
@@ -96,18 +144,13 @@ class VideoThread(QThread):
                     if self.video_writer is None:
                         self.start_detection_time = time.strftime('%d.%m.%Y_%H-%M-%S', time.localtime())
                         fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-                        output_filename = f'data/videos/{self.start_detection_time}.avi'
-                        #print(self.start_detection_time)
-                        #self.video_writer = cv2.VideoWriter('output.avi', fourcc, 30.0, (1280, 720))
+                        output_filename = f'{self.video_path}{self.start_detection_time}.avi'
                         self.video_writer = cv2.VideoWriter(output_filename, fourcc, 30.0, (1280, 720))
-                        
-                        #print(self.video_writer.isOpened())
                     self.save(frame)
+                    
                     if was_human_detected_in_zone and self.sender_server and self.reciever and time.time() - last_send > NOTIFICATION_FREQ:
-                        curr_time = time.time()
-                        #if curr_time - last_send > 60 * 5 and ...
-                        #self.sender.send_email(self.reciever_to_alert, frame)
-                        #add sending email and push notification to mobile app
+                        self.sender.send_email(self.reciever_to_alert, frame)
+                        last_send = time.time()
                 elif self.is_active_detector and self.zone_annotator and self.box_annotator:
                     # skip detection phase for performance boost
 
@@ -125,7 +168,15 @@ class VideoThread(QThread):
                         self.video_writer = None
                     frame_num = self.activate_detector_every_n_frames - 1
                 self.change_pixmap_signal.emit(frame)
-            elif self.camera is not None:
+
+                if self.client_connected:
+                    try:
+                        self.send_frame(frame)
+                    except (BrokenPipeError, ConnectionResetError):
+                        break
+                    
+
+            if isinstance(self.camera, Camera) and not self.camera.cap.isOpened():
                 self.camera.connect_to_camera()
         
 
@@ -156,10 +207,10 @@ class HumanDetectorDesktopApp(QMainWindow):
         
         self.ui.cb_current_camera.currentIndexChanged.connect(self.cb_index_changed)
 
-
-        print("Видеопоток получен!")
         self.email_server = None
         self.reciever_email = None
+        # path to store videos
+        self.video_path = 'data/videos/'
 
         self.ui.settings.triggered.connect(self.open_settings_window)
         self.ui.cameras_settings.triggered.connect(self.open_cameras_list_window)
@@ -222,7 +273,6 @@ class HumanDetectorDesktopApp(QMainWindow):
         index  = self.ui_cameras_list_window.tbl_cameras.selectedIndexes()[0]
         id = str(self.ui_cameras_list_window.tbl_cameras.model().data(index))
 
-        print(id)
         self.data.delete_camera(id)
         self.view_data()
 
@@ -231,14 +281,20 @@ class HumanDetectorDesktopApp(QMainWindow):
         self.ui_add_edit_camera = Ui_AddEditCamera()
         self.ui_add_edit_camera.setupUi(self.add_edit_camera_window)
 
-        self.add_edit_camera_window.show()
         sender = self.sender()
         if sender.text() == 'Добавить камеру':
             self.ui_add_edit_camera.btn_save_camera.clicked.connect(self.add_new_camera)
         else:
-            self.db
-            self.ui_add_edit_camera.le_ip.setText(self.db)
+            index  = self.ui_cameras_list_window.tbl_cameras.selectedIndexes()[0]
+            id = str(self.ui_cameras_list_window.tbl_cameras.model().data(index))
+            camera_data = self.data.get_camera(id)
+            self.ui_add_edit_camera.le_ip.setText(str(camera_data.ip))
+            self.ui_add_edit_camera.le_fps.setText(str(camera_data.camera_fps))
+            self.ui_add_edit_camera.le_name.setText(camera_data.name)
+            self.ui_add_edit_camera.le_resolution.setText(' '.join(map(str, camera_data.resolution)))
             self.ui_add_edit_camera.btn_save_camera.clicked.connect(self.edit_curr_camera)
+
+        self.add_edit_camera_window.show()
 
     def view_data(self):
         self.model = QSqlTableModel(self)
@@ -260,6 +316,9 @@ class HumanDetectorDesktopApp(QMainWindow):
 
         self.cameras_list_window.show()
 
+    def update_video_path(self):
+        self.video_path = self.ui_settings_window.le_video_path.text()
+
     # connected to click on settings
     def open_settings_window(self):
         '''
@@ -269,9 +328,9 @@ class HumanDetectorDesktopApp(QMainWindow):
         and some more things will be added)
         '''
         self.settings_window = QtWidgets.QDialog()
-        self.ui_settings_window = Ui_EmailChanging()
+        self.ui_settings_window = Ui_EmailPathChanging()
         self.ui_settings_window.setupUi(self.settings_window)
-        self.ui_settings_window.btn_save_zone.clicked.connect(self.save_new_cords)
+        self.ui_settings_window.btn_save_video_path.clicked.connect(self.update_video_path)
 
         self.ui_settings_window.btn_save_reciever.clicked.connect(self.save_reciever)
         self.ui_settings_window.btn_save_sender.clicked.connect(self.save_sender)

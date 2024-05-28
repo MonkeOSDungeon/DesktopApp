@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>EmailChanging</class>
- <widget class="QDialog" name="EmailChanging">
+ <class>EmailPathChanging</class>
+ <widget class="QDialog" name="EmailPathChanging">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -30,7 +30,7 @@ border-radius: 7px</string>
      <property name="frameShadow">
       <enum>QFrame::Shadow::Raised</enum>
      </property>
-     <layout class="QGridLayout" name="gridLayout_5">
+     <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
@@ -149,6 +149,64 @@ padding-left: 5px;</string>
         </item>
         <item>
          <widget class="QPushButton" name="btn_save_reciever">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+	color: white;
+	background-color: rgba(255, 255, 255, 30);
+	border: 1px solid rgba(255, 255, 255, 40);
+	border-radius: 7px;
+	width: 100px;
+	height: 25px
+}
+QPushButton:hover {
+	background-color: rgba(255, 255, 255, 40);
+}
+QPushButton:pressed {
+	background-color: rgba(255, 255, 255, 70);
+}</string>
+          </property>
+          <property name="text">
+           <string>Сохранить</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="2" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="lbl_video_path">
+          <property name="styleSheet">
+           <string notr="true">font-size: 14px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+          </property>
+          <property name="text">
+           <string>Папка, куда
+будут сохраняться
+видео</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_video_path">
+          <property name="styleSheet">
+           <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+          </property>
+          <property name="text">
+           <string>data/videos</string>
+          </property>
+          <property name="placeholderText">
+           <string>Введите path</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_save_video_path">
           <property name="styleSheet">
            <string notr="true">QPushButton {
 	color: white;

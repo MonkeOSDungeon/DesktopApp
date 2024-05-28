@@ -38,6 +38,23 @@ class Data:
             cameras.append(Camera(connection_string, name, fps, resolution))
 
         return cameras
+    
+    def get_camera(self, id) -> Camera:
+        query = QSqlQuery(self.db)
+        if not query.exec(f'select * from cameras where id={id};'):
+            raise Exception(f"Query error: {query.lastError().text()}")
+        
+        if not query.next():
+            raise Exception("No record found")
+        
+        connection_string = query.value('connection_string')
+        if connection_string.isdigit():
+            connection_string = int(connection_string)
+        name = query.value('name')
+        fps = query.value('fps')
+        resolution = tuple(map(int, query.value('resolution').split()))
+
+        return Camera(connection_string, name, fps, resolution)
 
     def execute_query(self, query_text, params=None):
         query = QSqlQuery(self.db)

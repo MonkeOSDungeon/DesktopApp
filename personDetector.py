@@ -22,7 +22,7 @@ class Detector:
         self.zone_annotator = sv.PolygonZoneAnnotator(zone=self.zone, color=sv.Color.GREEN, \
                                                       thickness=2, text_thickness=1, text_scale=1 )
     
-    def detect(self, frame)->bool:
+    def detect(self, frame) -> tuple:
         '''
         Detects people in the zone
 

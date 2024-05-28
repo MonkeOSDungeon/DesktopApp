@@ -8,7 +8,6 @@ class Camera:
             self.cap = cv2.VideoCapture(camera_ip_and_port)
         else:
             self.cap = cv2.VideoCapture(camera_ip_and_port, cv2.CAP_FFMPEG)
-        print(self.cap.isOpened())
         self.camera_fps = fps
         self.resolution = resolution
 
