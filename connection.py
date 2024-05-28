@@ -29,11 +29,12 @@ class Data:
         cameras = []
         while query.next():
             connection_string = query.value('connection_string')
-            name = query.value('description')
+            if connection_string.isdigit():
+                connection_string = int(connection_string)
+            name = query.value('name')
             fps = query.value('fps')
             resolution = tuple(map(int, query.value('resolution').split()))
 
-            print(f'connection value: {connection_string} \t type: {type(connection_string)}')
             cameras.append(Camera(connection_string, name, fps, resolution))
 
         return cameras
@@ -65,20 +66,20 @@ class Data:
 
     def add_cam_list(self,
                    connection_string, fps, 
-                   resolution, description=None):
-        self.exec_query_list('''INSERT INTO cameras (connection_string, description, fps, resolution) VALUES ($1, $2, $3, $4);
+                   resolution, name=None):
+        self.exec_query_list('''INSERT INTO cameras (connection_string, name, fps, resolution) VALUES ($1, $2, $3, $4);
         ''', [
             connection_string,
-            description,
+            name,
             fps,
             resolution
         ])
 
     def add_cam_exec(self,
                    connection_string, fps, 
-                   resolution, description=None):
+                   resolution, name=None):
         query = QSqlQuery(self.db)
-        if not query.exec(f'INSERT INTO cameras (connection_string, description, fps, resolution) VALUES (\'{connection_string}\', \'{description}\', {fps}, \'{resolution}\')'):
+        if not query.exec(f'INSERT INTO cameras (connection_string, name, fps, resolution) VALUES (\'{connection_string}\', \'{name}\', {fps}, \'{resolution}\')'):
             raise Exception(f"Query error: {query.lastError().text()}")
 
     def create_tables(self):
@@ -87,7 +88,7 @@ class Data:
             CREATE TABLE IF NOT EXISTS cameras (
                 id SERIAL PRIMARY KEY,
                 connection_string TEXT NOT NULL,
-                description TEXT,
+                name TEXT NOT NULL UNIQUE,
                 fps INTEGER,
                 resolution TEXT
             );
@@ -99,68 +100,68 @@ class Data:
                 id SERIAL PRIMARY KEY,
                 camera_id INTEGER REFERENCES cameras(id) ON DELETE CASCADE,
                 coordinates TEXT NOT NULL,
-                description TEXT
+                name TEXT
             );
             '''):
             raise Exception(f"Failed to create zones table: {query.lastError().text()}")
 
     def add_camera(self, 
                    connection_string, fps, 
-                   resolution, description=None):
+                   resolution, name=None):
         self.execute_query('''
-        INSERT INTO cameras (connection_string, description, fps, resolution)
-        VALUES (:connection_string, :description, :fps, :resolution);
+        INSERT INTO cameras (connection_string, name, fps, resolution)
+        VALUES (:connection_string, :name, :fps, :resolution);
         ''', {
             ':connection_string': connection_string,
-            ':description': description,
+            ':name': name,
             ':fps': fps,
             ':resolution': resolution
         })
 
-    def add_zone_exec(self, camera_id: int, coordinates: str, description: str=None):
+    def add_zone_exec(self, camera_id: int, coordinates: str, name: str=None):
         query = QSqlQuery(self.db)
-        if not query.exec(f'''INSERT INTO zones (camera_id, coordinates, description) VALUES (\'{camera_id}\', \'{coordinates}\', \'{description}\');'''):
+        if not query.exec(f'''INSERT INTO zones (camera_id, coordinates, name) VALUES (\'{camera_id}\', \'{coordinates}\', \'{name}\');'''):
             raise Exception(f"Query error: {query.lastError().text()}")
 
-    def add_zone(self, camera_id: int, coordinates: str, description: str=None):
+    def add_zone(self, camera_id: int, coordinates: str, name: str=None):
         self.execute_query('''
-        INSERT INTO zones (camera_id, coordinates, description)
-        VALUES (:camera_id, :coordinates, :description);
+        INSERT INTO zones (camera_id, coordinates, name)
+        VALUES (:camera_id, :coordinates, :name);
         ''', {
             ':camera_id': camera_id,
             ':coordinates': coordinates,
-            ':description': description
+            ':name': name
         })
 
     def update_camera(self, camera_id, 
                       new_connection_string, new_fps, 
-                      new_resolution, new_description=None):
+                      new_resolution, new_name=None):
         self.execute_query('''
         UPDATE cameras
         SET connection_string = COALESCE(:connection_string, connection_string),
-            description = COALESCE(:description, description),
+            name = COALESCE(:name, name),
             fps = COALESCE(:fps, fps),
             resolution = COALESCE(:resolution, resolution)
         WHERE id = :camera_id;
         ''', {
             ':connection_string': new_connection_string,
-            ':description': new_description,
+            ':name': new_name,
             ':fps': new_fps,
             ':resolution': new_resolution,
             ':camera_id': camera_id
         })
 
-    def update_zone(self, zone_id, new_camera_id=None, new_coordinates=None, new_description=None):
+    def update_zone(self, zone_id, new_camera_id=None, new_coordinates=None, new_name=None):
         self.execute_query('''
         UPDATE zones
         SET camera_id = COALESCE(:camera_id, camera_id),
             coordinates = COALESCE(:coordinates, coordinates),
-            description = COALESCE(:description, description)
+            name = COALESCE(:name, name)
         WHERE id = :zone_id;
         ''', {
             ':camera_id': new_camera_id,
             ':coordinates': new_coordinates,
-            ':description': new_description,
+            ':name': new_name,
             ':zone_id': zone_id
         })
 

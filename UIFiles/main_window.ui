@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1262</width>
-    <height>825</height>
+    <width>1318</width>
+    <height>849</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,37 +18,37 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Orientation::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>455</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="1" column="1">
-     <widget class="QComboBox" name="comboBox">
-      <item>
-       <property name="text">
-        <string>Камера 1</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Камера 2</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item row="1" column="2">
-     <widget class="QPushButton" name="activate_people_detector">
+    <item row="0" column="0">
+     <widget class="QFrame" name="frame">
       <property name="styleSheet">
-       <string notr="true">QPushButton {
+       <string notr="true">background-color: rgba(255, 255, 255, 30);
+border: 1px solid rgba(255, 255, 255, 40);
+border-radius: 7px</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Shape::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Shadow::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="1" column="3">
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>402</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="2">
+        <widget class="QPushButton" name="activate_people_detector">
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
 	color: white;
 	background-color: rgba(255, 255, 255, 30);
 	border: 1px solid rgba(255, 255, 255, 40);
@@ -62,32 +62,98 @@ QPushButton:hover {
 QPushButton:pressed {
 	background-color: rgba(255, 255, 255, 70);
 }</string>
-      </property>
-      <property name="text">
-       <string>Включить 
+         </property>
+         <property name="text">
+          <string>Включить 
 распознавание людей 
 на видео</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="3">
-     <spacer name="horizontalSpacer">
-      <property name="orientation">
-       <enum>Qt::Orientation::Horizontal</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>454</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="0" column="0" colspan="4">
-     <widget class="QLabel" name="video_stream">
-      <property name="text">
-       <string/>
-      </property>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="cb_current_camera">
+         <property name="styleSheet">
+          <string notr="true">QComboBox{
+	color: white;
+	background-color: rgba(255, 255, 255, 30);
+	border: 1px solid rgba(255, 255, 255, 40);
+	border-radius: 7px;
+	width: 200px;
+	height: 40px
+}
+
+QComboBox:item {
+color: black;
+}
+
+/*
+
+QComboBox {
+font-size: 16px;
+color: white;
+}
+QComboBox QAbstractItemView
+{
+    border: 2px solid darkgray;
+    color: black;
+    selection-background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #111, stop: 1 #333);
+}
+QComboBox:item {                              
+	margin:3px; 
+	color: black;
+}  
+
+QComboBox:item:selected
+{
+     border: 0px solid #999900;
+     background: transparent;
+}
+QComboBox:item:checked
+{
+     font-weight: bold;
+}*/</string>
+         </property>
+         <property name="currentIndex">
+          <number>-1</number>
+         </property>
+         <property name="placeholderText">
+          <string>Choose camera</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>402</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0" colspan="4">
+        <widget class="QLabel" name="video_stream">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>1920</width>
+           <height>1080</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
@@ -97,7 +163,7 @@ QPushButton:pressed {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1262</width>
+     <width>1318</width>
      <height>33</height>
     </rect>
    </property>

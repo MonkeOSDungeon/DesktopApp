@@ -22,12 +22,12 @@ import supervision as sv
 
 class VideoThread(QThread):
     change_pixmap_signal = Signal(np.ndarray)
-    def __init__(self, detector: Detector, cap, is_active_detector: bool, activate_detector_every_n_frames: int):
+    def __init__(self, detector: Detector, is_active_detector: bool, activate_detector_every_n_frames: int):
         super().__init__()
         # person detector based on YOLOv5 nano
         self.detector = detector
         # cv2 video capture
-        self.cap = cap
+        self.camera = None
         # is it necessary to detect on the current frame or not
         self.is_active_detector = is_active_detector
         # is used to speed up performance, responsible for how many frames will be skipped between detections
@@ -46,6 +46,9 @@ class VideoThread(QThread):
         self.start_detection_time = None
         self.end_detection_time = None
         self.video_writer = None
+
+    def set_camera(self, camera: Camera):
+        self.camera = camera
 
     def set_email_settings(self, sender: Email_server, reciever_email: str) -> None:
         '''
@@ -77,50 +80,53 @@ class VideoThread(QThread):
         #cv2.destroyAllWindows()
 
     def run(self):
-        last_send = 0
+        last_send = time.time()
         frame_num = 0
+        NOTIFICATION_FREQ = 300
         while True:
-            _, frame = self.cap.read()
-            frame = cv2.resize(frame, (1280, 720))
+            if self.camera is not None and self.camera.cap.isOpened():
+                frame = self.camera.read()
 
-            frame_num += 1
+                frame_num += 1
 
-            if self.is_active_detector and frame_num == self.activate_detector_every_n_frames:
-                # detect every self.activate_detector_every_n_frames (default 5) frames for performance boost
-                frame_num = 0
-                was_human_detected_in_zone, frame, self.box_annotator, self.zone_annotator, self.detections = self.detector.detect(frame)
-                if self.video_writer is None:
-                    self.start_detection_time = time.strftime('%d.%m.%Y_%H-%M-%S', time.localtime())
-                    fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-                    output_filename = f'data/videos/{self.start_detection_time}.avi'
-                    #print(self.start_detection_time)
-                    #self.video_writer = cv2.VideoWriter('output.avi', fourcc, 30.0, (1280, 720))
-                    self.video_writer = cv2.VideoWriter(output_filename, fourcc, 30.0, (1280, 720))
-                    
-                    #print(self.video_writer.isOpened())
-                self.save(frame)
-                #if was_human_detected_in_zone and self.sender_server and self.reciever:
-                    #curr_time = time.time()
-                    #if curr_time - last_send > 60 * 5 and ...
-                    #self.sender.send_email(self.reciever_to_alert, frame)
-                    #add sending email and push notification to mobile app
-            elif self.is_active_detector and self.zone_annotator and self.box_annotator:
-                # skip detection phase for performance boost
+                if self.is_active_detector and frame_num == self.activate_detector_every_n_frames:
+                    # detect every self.activate_detector_every_n_frames (default 5) frames for performance boost
+                    frame_num = 0
+                    was_human_detected_in_zone, frame, self.box_annotator, self.zone_annotator, self.detections = self.detector.detect(frame)
+                    if self.video_writer is None:
+                        self.start_detection_time = time.strftime('%d.%m.%Y_%H-%M-%S', time.localtime())
+                        fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+                        output_filename = f'data/videos/{self.start_detection_time}.avi'
+                        #print(self.start_detection_time)
+                        #self.video_writer = cv2.VideoWriter('output.avi', fourcc, 30.0, (1280, 720))
+                        self.video_writer = cv2.VideoWriter(output_filename, fourcc, 30.0, (1280, 720))
+                        
+                        #print(self.video_writer.isOpened())
+                    self.save(frame)
+                    if was_human_detected_in_zone and self.sender_server and self.reciever and time.time() - last_send > NOTIFICATION_FREQ:
+                        curr_time = time.time()
+                        #if curr_time - last_send > 60 * 5 and ...
+                        #self.sender.send_email(self.reciever_to_alert, frame)
+                        #add sending email and push notification to mobile app
+                elif self.is_active_detector and self.zone_annotator and self.box_annotator:
+                    # skip detection phase for performance boost
 
-                # annotate from previous detection annotators
-                frame = self.box_annotator.annotate(scene=frame, detections=self.detections)
-                frame = self.zone_annotator.annotate(scene=frame)
+                    # annotate from previous detection annotators
+                    frame = self.box_annotator.annotate(scene=frame, detections=self.detections)
+                    frame = self.zone_annotator.annotate(scene=frame)
 
-                # save frame to video file
-                self.save(frame)
-            else:
-                # realise file
-                if not self.video_writer is None:
-                    self.realise()
+                    # save frame to video file
+                    self.save(frame)
                 else:
-                    self.video_writer = None
-                frame_num = self.activate_detector_every_n_frames - 1
-            self.change_pixmap_signal.emit(frame)
+                    # realise file
+                    if not self.video_writer is None:
+                        self.realise()
+                    else:
+                        self.video_writer = None
+                    frame_num = self.activate_detector_every_n_frames - 1
+                self.change_pixmap_signal.emit(frame)
+            elif self.camera is not None:
+                self.camera.connect_to_camera()
         
 
 class HumanDetectorDesktopApp(QMainWindow):
@@ -136,24 +142,20 @@ class HumanDetectorDesktopApp(QMainWindow):
         self.data = Data()
         self.data.create_tables()
 
-
+        # TODO : подгрузка зон с БД
         self.detector = Detector(resolution=(1280, 720), zone=np.array([1000, 0, 500, 0, 500, 720, 1000, 720], dtype=int).reshape((4, 2)))
         # activate people detection every n frames, if 1 - always active 
         self.activate_detector_every_n_frames = 5
 
-        #TODO : подгрузка камер с БД
         self.cameras = self.data.get_cameras()
         #self.cameras = [Camera(first_camera_path, 30, (1280, 720))]
-        self.cap = self.cameras[0].cap
-        #self.cap = cv2.VideoCapture(first_camera_path)
-        #self.cap = cv2.VideoCapture('udp://192.168.126.228:40002', cv2.CAP_FFMPEG)
-        """self.cap = cv2.VideoCapture('http://192.168.0.183:4747/video', cv2.CAP_FFMPEG)
+        if len(self.cameras) == 0:
+            self.cameras.append(Camera(0, 'webcam 1', 30, (1280, 720)))
+        for i in range(len(self.cameras)):
+            self.ui.cb_current_camera.addItem(self.cameras[i].name)
+        
+        self.ui.cb_current_camera.currentIndexChanged.connect(self.cb_index_changed)
 
-        # Waiting for video stream reception
-        while not self.cap.isOpened():
-            #self.cap = cv2.VideoCapture('udp://192.168.126.228:40002', cv2.CAP_FFMPEG)
-            self.cap = cv2.VideoCapture('http://192.168.0.183:4747/video', cv2.CAP_FFMPEG)
-            print("Ожидание получения видеопотока...")"""
 
         print("Видеопоток получен!")
         self.email_server = None
@@ -167,22 +169,33 @@ class HumanDetectorDesktopApp(QMainWindow):
         
         self.ui.activate_people_detector.clicked.connect(self.activate_detector_button_clicked)
 
-        self.thread = VideoThread(self.detector, self.cap, self.is_active_detector, self.activate_detector_every_n_frames)
+        self.thread = VideoThread(self.detector, self.is_active_detector, self.activate_detector_every_n_frames)
         self.thread.change_pixmap_signal.connect(self.update_image)
         self.thread.start()
+
+    def cb_update(self):
+        self.ui.cb_current_camera.clear()
+        for i in range(len(self.cameras)):
+            self.ui.cb_current_camera.addItem(self.cameras[i].name)
+
+    def cb_index_changed(self, index):
+        self.thread.set_camera(self.cameras[index])
 
     def add_new_camera(self):
         ip = self.ui_add_edit_camera.le_ip.text()
         fps = int(self.ui_add_edit_camera.le_fps.text())
         resolution = self.ui_add_edit_camera.le_resolution.text()
-        description = self.ui_add_edit_camera.le_description.text()
+        name = self.ui_add_edit_camera.le_name.text()
 
-        if description == '':
-            description = None
+        if name == '':
+            name = None
 
-        #self.data.add_camera(ip, fps, resolution, description)
-        #self.data.add_cam_list(ip, fps, resolution, description)
-        self.data.add_cam_exec(ip, fps, resolution, description)
+        # Somehow this methods does not work
+        #self.data.add_camera(ip, fps, resolution, name)
+        #self.data.add_cam_list(ip, fps, resolution, name)
+        self.data.add_cam_exec(ip, fps, resolution, name)
+        self.cameras = self.data.get_cameras()
+        self.cb_update()
         self.view_data()
         self.add_edit_camera_window.close()
 
@@ -193,12 +206,14 @@ class HumanDetectorDesktopApp(QMainWindow):
         ip = self.ui_add_edit_camera.le_ip.text()
         fps = int(self.ui_add_edit_camera.le_fps.text())
         resolution = self.ui_add_edit_camera.le_resolution.text()
-        description = self.ui_add_edit_camera.le_description.text()
+        name = self.ui_add_edit_camera.le_name.text()
 
-        if description == '':
-            description = None
+        if name == '':
+            name = None
 
-        self.data.update_camera(id, ip, fps, resolution, description)
+        self.data.update_camera(id, ip, fps, resolution, name)
+        self.cameras = self.data.get_cameras()
+        self.cb_update()
 
         self.view_data()
         self.add_edit_camera_window.close()
@@ -233,6 +248,7 @@ class HumanDetectorDesktopApp(QMainWindow):
         self.cameras_list_window = QtWidgets.QDialog()
         self.ui_cameras_list_window = Ui_CamerasWindow()
         self.ui_cameras_list_window.setupUi(self.cameras_list_window)
+        self.ui_cameras_list_window.tbl_cameras.resizeColumnsToContents()
 
         self.ui_cameras_list_window.btn_add_camera.clicked.connect(self.open_add_edit_camera_window)
         self.ui_cameras_list_window.btn_edit_camera.clicked.connect(self.open_add_edit_camera_window)
@@ -247,7 +263,6 @@ class HumanDetectorDesktopApp(QMainWindow):
         '''
         Create new window where you can 
             change zone, 
-            resolution, 
             sender and reciever emails 
         and some more things will be added)
         '''
@@ -256,7 +271,6 @@ class HumanDetectorDesktopApp(QMainWindow):
         self.ui_settings_window.setupUi(self.settings_window)
         self.ui_settings_window.btn_save_zone.clicked.connect(self.save_new_cords)
 
-        self.ui_settings_window.btn_save_resolution.clicked.connect(self.save_new_resolution)
         self.ui_settings_window.btn_save_reciever.clicked.connect(self.save_reciever)
         self.ui_settings_window.btn_save_sender.clicked.connect(self.save_sender)
 
@@ -282,13 +296,6 @@ class HumanDetectorDesktopApp(QMainWindow):
         )
         if self.reciever_email:
             self.thread.set_email_settings(self.email_server, self.reciever_email)
-
-    # connected to click on button btn_save_resolution
-    def save_new_resolution(self):
-        '''
-        change video thread resolution
-        '''
-        self.resolution = map(int, self.ui_settings_window.le_resolution.text().split())
 
     # connected to click on button btn_save_zone
     def save_new_cords(self):

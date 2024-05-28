@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'cameras.ui'
+## Form generated from reading UI file 'cameras_list.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.0
 ##
@@ -23,7 +23,7 @@ class Ui_CamerasWindow(object):
     def setupUi(self, CamerasWindow):
         if not CamerasWindow.objectName():
             CamerasWindow.setObjectName(u"CamerasWindow")
-        CamerasWindow.resize(400, 300)
+        CamerasWindow.resize(644, 312)
         CamerasWindow.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(81, 0, 135, 255), stop:0.427447 rgba(41, 61, 132, 235), stop:1 rgba(155, 79, 165, 255));\n"
 "")
         self.verticalLayout = QVBoxLayout(CamerasWindow)
@@ -104,6 +104,7 @@ class Ui_CamerasWindow(object):
 "	color: white;\n"
 "	border: none;\n"
 "	height: 50px;\n"
+"	width: 100px;\n"
 "	font-size: 14px\n"
 "}\n"
 "\n"
@@ -114,7 +115,7 @@ class Ui_CamerasWindow(object):
 "\n"
 "QTableView::item::selected{\n"
 "	border: none;\n"
-"	color: rgba(255, 255, 255);\n"
+"	color: rgb(255, 255, 255);\n"
 "	background-color: rgba(255, 255, 255, 50);\n"
 "}\n"
 "")
