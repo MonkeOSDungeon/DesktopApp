@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AddEditCamera</class>
+ <widget class="QDialog" name="AddEditCamera">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>390</width>
+    <height>240</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Добавление камеры</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(81, 0, 135, 255), stop:0.427447 rgba(41, 61, 132, 235), stop:1 rgba(155, 79, 165, 255));
+</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QFrame" name="frame">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(255, 255, 255, 30);
+border: 1px solid rgba(255, 255, 255, 40);
+border-radius: 7px</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Shape::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Shadow::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="lbl_ip">
+          <property name="styleSheet">
+           <string notr="true">font-size: 14px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+          </property>
+          <property name="text">
+           <string>IP</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_ip">
+          <property name="styleSheet">
+           <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>http://192.168.0.183:4747/video</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLabel" name="lbl_fps">
+          <property name="styleSheet">
+           <string notr="true">font-size: 14px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+          </property>
+          <property name="text">
+           <string>FPS</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_fps">
+          <property name="styleSheet">
+           <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+          </property>
+          <property name="text">
+           <string>30</string>
+          </property>
+          <property name="placeholderText">
+           <string>30</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="lbl_resolution">
+          <property name="styleSheet">
+           <string notr="true">font-size: 14px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+          </property>
+          <property name="text">
+           <string>Разрешение</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_resolution">
+          <property name="styleSheet">
+           <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+          </property>
+          <property name="text">
+           <string>1280 720</string>
+          </property>
+          <property name="placeholderText">
+           <string>1280 720</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="lbl_description">
+          <property name="styleSheet">
+           <string notr="true">font-size: 14px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+          </property>
+          <property name="text">
+           <string>Описание камеры</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_description">
+          <property name="styleSheet">
+           <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="placeholderText">
+           <string>Опциональное поле</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btn_save_camera">
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+	color: white;
+	background-color: rgba(255, 255, 255, 30);
+	border: 1px solid rgba(255, 255, 255, 40);
+	border-radius: 7px;
+	width: 100px;
+	height: 25px
+}
+QPushButton:hover {
+	background-color: rgba(255, 255, 255, 40);
+}
+QPushButton:pressed {
+	background-color: rgba(255, 255, 255, 70);
+}</string>
+        </property>
+        <property name="text">
+         <string>Сохранить</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CamerasWindow</class>
+ <widget class="QDialog" name="CamerasWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Настройки камер</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(81, 0, 135, 255), stop:0.427447 rgba(41, 61, 132, 235), stop:1 rgba(155, 79, 165, 255));
+</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="btn_add_camera">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	color: white;
+	background-color: rgba(255, 255, 255, 30);
+	border: 1px solid rgba(255, 255, 255, 40);
+	border-radius: 7px;
+	width: 100px;
+	height: 25px
+}
+QPushButton:hover {
+	background-color: rgba(255, 255, 255, 40);
+}
+QPushButton:pressed {
+	background-color: rgba(255, 255, 255, 70);
+}</string>
+       </property>
+       <property name="text">
+        <string>Добавить камеру</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_edit_camera">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	color: white;
+	background-color: rgba(255, 255, 255, 30);
+	border: 1px solid rgba(255, 255, 255, 40);
+	border-radius: 7px;
+	width: 100px;
+	height: 25px
+}
+QPushButton:hover {
+	background-color: rgba(255, 255, 255, 40);
+}
+QPushButton:pressed {
+	background-color: rgba(255, 255, 255, 70);
+}</string>
+       </property>
+       <property name="text">
+        <string>Изменить камеру</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_delete_camera">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	color: white;
+	background-color: rgba(255, 255, 255, 30);
+	border: 1px solid rgba(255, 255, 255, 40);
+	border-radius: 7px;
+	width: 100px;
+	height: 25px
+}
+QPushButton:hover {
+	background-color: rgba(255, 255, 255, 40);
+}
+QPushButton:pressed {
+	background-color: rgba(255, 255, 255, 70);
+}</string>
+       </property>
+       <property name="text">
+        <string>Удалить камеру</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableView" name="tbl_cameras">
+     <property name="styleSheet">
+      <string notr="true">QTableView {
+	background-color: rgba(255, 255, 255, 30);
+	border: 1px solid rgba(255, 255, 255, 40);
+	border-bottom-right-radius: 7px;
+	border-bottom-left-radius: 7px;
+}
+
+QTableView::section{
+	background-color: rgb(53, 53, 53);
+	color: white;
+	border: none;
+	height: 50px;
+	font-size: 14px
+}
+
+QTableView::item {
+	border-style: none;
+	border-bottom: rgba(255, 255, 255, 50);
+}
+
+QTableView::item::selected{
+	border: none;
+	color: rgba(255, 255, 255);
+	background-color: rgba(255, 255, 255, 50);
+}
+</string>
+     </property>
+     <property name="showGrid">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

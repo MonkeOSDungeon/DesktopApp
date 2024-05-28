@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1262</width>
+    <height>825</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MonkeOS-team</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(81, 0, 135, 255), stop:0.427447 rgba(41, 61, 132, 235), stop:1 rgba(155, 79, 165, 255));</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="0">
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Orientation::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>455</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="comboBox">
+      <item>
+       <property name="text">
+        <string>Камера 1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Камера 2</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QPushButton" name="activate_people_detector">
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	color: white;
+	background-color: rgba(255, 255, 255, 30);
+	border: 1px solid rgba(255, 255, 255, 40);
+	border-radius: 7px;
+	width: 230px;
+	height: 50px
+}
+QPushButton:hover {
+	background-color: rgba(255, 255, 255, 40);
+}
+QPushButton:pressed {
+	background-color: rgba(255, 255, 255, 70);
+}</string>
+      </property>
+      <property name="text">
+       <string>Включить 
+распознавание людей 
+на видео</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Orientation::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>454</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="0" column="0" colspan="4">
+     <widget class="QLabel" name="video_stream">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1262</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>&amp;Меню</string>
+    </property>
+    <addaction name="settings"/>
+    <addaction name="cameras_settings"/>
+   </widget>
+   <addaction name="menu"/>
+  </widget>
+  <action name="settings">
+   <property name="text">
+    <string>&amp;Общие настройки</string>
+   </property>
+  </action>
+  <action name="actionst">
+   <property name="text">
+    <string>st</string>
+   </property>
+  </action>
+  <action name="action1">
+   <property name="text">
+    <string>1</string>
+   </property>
+  </action>
+  <action name="cameras_settings">
+   <property name="text">
+    <string>Настройки камер</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

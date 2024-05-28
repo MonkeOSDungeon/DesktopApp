@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ZoneChanging</class>
+ <widget class="QDialog" name="ZoneChanging">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>614</width>
+    <height>348</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Изменение параметров зоны</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgba(81, 0, 135, 255), stop:0.427447 rgba(41, 61, 132, 235), stop:1 rgba(155, 79, 165, 255));</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QTabWidget::pane {
+  background-color: rgda(0, 0, 0, 0);
+} 
+
+QTabBar::tab {
+  color: white;
+  background-color: rgba(255, 255, 255, 30);
+  border: 1px solid rgba(255, 255, 255, 40);
+  width: 150px;
+  height: 25px;
+} 
+
+QTabBar::tab:selected { 
+	background-color: rgba(255, 255, 255, 70);
+}</string>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="zone_tab">
+      <attribute name="title">
+       <string>Настройки зонирования</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QFrame" name="frame">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgba(255, 255, 255, 30);
+border: 1px solid rgba(255, 255, 255, 40);
+border-radius: 7px</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Shape::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <item>
+               <widget class="QLabel" name="lbl_description">
+                <property name="styleSheet">
+                 <string notr="true">font-size: 14px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+                </property>
+                <property name="text">
+                 <string>Введите значения координат для каждого угла зоны
+значения должны быть целыми числами 
+                     0 &lt; x &lt; 1280   0 &lt; y &lt; 720 </string>
+                </property>
+                <property name="textFormat">
+                 <enum>Qt::TextFormat::AutoText</enum>
+                </property>
+                <property name="scaledContents">
+                 <bool>false</bool>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignmentFlag::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QGridLayout" name="gridLayout">
+                <item row="1" column="0">
+                 <widget class="QLineEdit" name="le_left_top_cords">
+                  <property name="styleSheet">
+                   <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Введите через пробел</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="le_right_top_cords">
+                  <property name="styleSheet">
+                   <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Введите через пробел</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLineEdit" name="le_left_bottom_cords">
+                  <property name="styleSheet">
+                   <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Введите через пробел</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="le_right_bottom_cords">
+                  <property name="styleSheet">
+                   <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+                  </property>
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Введите через пробел</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLabel" name="lbl_right_top">
+                  <property name="styleSheet">
+                   <string notr="true">font-size: 12px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+                  </property>
+                  <property name="text">
+                   <string>Введите значение координат
+правого верхнего угла зоны</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="lbl_left_top">
+                  <property name="styleSheet">
+                   <string notr="true">font-size: 12px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+                  </property>
+                  <property name="text">
+                   <string>Введите значение координат
+левого верхнего угла зоны</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="lbl_left_bottom">
+                  <property name="styleSheet">
+                   <string notr="true">font-size: 12px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+                  </property>
+                  <property name="text">
+                   <string>Введите значение координат
+левого нижнего угла зоны</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLabel" name="lbl_right_bottom">
+                  <property name="styleSheet">
+                   <string notr="true">font-size: 12px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+                  </property>
+                  <property name="text">
+                   <string>Введите значение координат
+правого нижнего угла зоны</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_save_zone">
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+	color: white;
+	background-color: rgba(255, 255, 255, 30);
+	border: 1px solid rgba(255, 255, 255, 40);
+	border-radius: 7px;
+	width: 230px;
+	height: 50px
+}
+QPushButton:hover {
+	background-color: rgba(255, 255, 255, 40);
+}
+QPushButton:pressed {
+	background-color: rgba(255, 255, 255, 70);
+}</string>
+              </property>
+              <property name="text">
+               <string>Сохранить изменения</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="oth_settings_tab">
+      <attribute name="title">
+       <string>Остальные настройки</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
+        <widget class="QFrame" name="frame_2">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgba(255, 255, 255, 30);
+border: 1px solid rgba(255, 255, 255, 40);
+border-radius: 7px</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Shape::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Shadow::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLabel" name="lbl_sender">
+              <property name="styleSheet">
+               <string notr="true">font-size: 14px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+              </property>
+              <property name="text">
+               <string>Почта, с которой
+будут приходить
+уведомления:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <item>
+               <widget class="QLineEdit" name="le_sender_email">
+                <property name="styleSheet">
+                 <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+                </property>
+                <property name="text">
+                 <string>zone.monitor.alert@gmail.com</string>
+                </property>
+                <property name="placeholderText">
+                 <string>Введите адрес почты</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="le_sender_pass">
+                <property name="styleSheet">
+                 <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+                </property>
+                <property name="text">
+                 <string>G7rB!x2#VpQ8^yM0</string>
+                </property>
+                <property name="frame">
+                 <bool>true</bool>
+                </property>
+                <property name="echoMode">
+                 <enum>QLineEdit::EchoMode::Password</enum>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+                </property>
+                <property name="placeholderText">
+                 <string>Введите пароль</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_save_sender">
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+	color: white;
+	background-color: rgba(255, 255, 255, 30);
+	border: 1px solid rgba(255, 255, 255, 40);
+	border-radius: 7px;
+	width: 100px;
+	height: 25px
+}
+QPushButton:hover {
+	background-color: rgba(255, 255, 255, 40);
+}
+QPushButton:pressed {
+	background-color: rgba(255, 255, 255, 70);
+}</string>
+              </property>
+              <property name="text">
+               <string>Сохранить</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QLabel" name="lbl_reciever">
+              <property name="styleSheet">
+               <string notr="true">font-size: 14px;
+font-weight: bold;
+color: white;
+background-color: none;
+border: none</string>
+              </property>
+              <property name="text">
+               <string>Почта, куда
+будут приходить
+уведомления:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="le_email_reciever">
+              <property name="styleSheet">
+               <string notr="true">font-size: 16px;
+color: white;
+padding-left: 5px;</string>
+              </property>
+              <property name="placeholderText">
+               <string>Введите адрес почты</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btn_save_reciever">
+              <property name="styleSheet">
+               <string notr="true">QPushButton {
+	color: white;
+	background-color: rgba(255, 255, 255, 30);
+	border: 1px solid rgba(255, 255, 255, 40);
+	border-radius: 7px;
+	width: 100px;
+	height: 25px
+}
+QPushButton:hover {
+	background-color: rgba(255, 255, 255, 40);
+}
+QPushButton:pressed {
+	background-color: rgba(255, 255, 255, 70);
+}</string>
+              </property>
+              <property name="text">
+               <string>Сохранить</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
