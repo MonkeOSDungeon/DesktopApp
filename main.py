@@ -250,7 +250,7 @@ class HumanDetectorDesktopApp(QMainWindow):
         self.zones = self.data.get_zones()
         self.detector = Detector(resolution=(1280, 720), polygons_arr=[[0,0,0,0,0,0,0,0]])
         # activate people detection every n frames, if 1 - always active 
-        self.activate_detector_every_n_frames = 5
+        self.activate_detector_every_n_frames = 7
 
         self.cameras = self.data.get_cameras()
         #self.cameras = [Camera(first_camera_path, 30, (1280, 720))]
@@ -343,13 +343,13 @@ class HumanDetectorDesktopApp(QMainWindow):
         if sender.text() == 'Добавить камеру':
             self.ui_add_edit_camera.btn_save_camera.clicked.connect(self.add_new_camera)
         else:
-            index  = self.ui_cameras_list_window.tbl_cameras.selectedIndexes()[0]
+            """index  = self.ui_cameras_list_window.tbl_cameras.selectedIndexes()[0]
             id = str(self.ui_cameras_list_window.tbl_cameras.model().data(index))
             camera_data = self.data.get_camera(id)
             self.ui_add_edit_camera.le_ip.setText(str(camera_data.ip))
             self.ui_add_edit_camera.le_fps.setText(str(camera_data.camera_fps))
-            self.ui_add_edit_camera.le_name.setText(camera_data.name)
-            self.ui_add_edit_camera.le_resolution.setText(' '.join(map(str, camera_data.resolution)))
+            self.ui_add_edit_camera.le_name.setText(str(camera_data.name))
+            self.ui_add_edit_camera.le_resolution.setText(' '.join(map(str, camera_data.resolution)))"""
             self.ui_add_edit_camera.btn_save_camera.clicked.connect(self.edit_curr_camera)
 
         self.add_edit_camera_window.show()
