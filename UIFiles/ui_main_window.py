@@ -34,6 +34,8 @@ class Ui_MainWindow(object):
         self.action1.setObjectName(u"action1")
         self.cameras_settings = QAction(MainWindow)
         self.cameras_settings.setObjectName(u"cameras_settings")
+        self.zone_settings = QAction(MainWindow)
+        self.zone_settings.setObjectName(u"zone_settings")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
@@ -139,6 +141,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menu.menuAction())
         self.menu.addAction(self.settings)
         self.menu.addAction(self.cameras_settings)
+        self.menu.addAction(self.zone_settings)
 
         self.retranslateUi(MainWindow)
 
@@ -154,6 +157,7 @@ class Ui_MainWindow(object):
         self.actionst.setText(QCoreApplication.translate("MainWindow", u"st", None))
         self.action1.setText(QCoreApplication.translate("MainWindow", u"1", None))
         self.cameras_settings.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u043a\u0430\u043c\u0435\u0440", None))
+        self.zone_settings.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0437\u043e\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f", None))
         self.activate_people_detector.setText(QCoreApplication.translate("MainWindow", u"\u0412\u043a\u043b\u044e\u0447\u0438\u0442\u044c \n"
 "\u0440\u0430\u0441\u043f\u043e\u0437\u043d\u0430\u0432\u0430\u043d\u0438\u0435 \u043b\u044e\u0434\u0435\u0439 \n"
 "\u043d\u0430 \u0432\u0438\u0434\u0435\u043e", None))

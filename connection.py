@@ -2,6 +2,7 @@ from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
 from PySide6.QtWidgets import QApplication, QTableView
 from PySide6.QtCore import Qt
 from camera import Camera
+from collections import defaultdict
 import os
 import sys
 
@@ -21,6 +22,24 @@ class Data:
         if not self.db.open():
             raise Exception(f"Cannot open database: {self.db.lastError().text()}")
 
+    def get_zones(self):
+        query = QSqlQuery(self.db)
+        if not query.exec('select * from zones'):
+            raise Exception(f"Query error: {query.lastError().text()}")
+        query.exec("SELECT camera_id, coordinates FROM zones")
+        
+        zones_with_camera_id = defaultdict(list)
+        while query.next():
+            camera_id = query.value('camera_id')
+            coordinates = query.value('coordinates')
+            coordinates = list(map(int, coordinates.split()))
+            zones_with_camera_id[camera_id].append(coordinates)
+
+        return zones_with_camera_id
+        
+    def get_zones_by_camera_id(self, camera_id):
+        return self.get_zones()[camera_id]
+
     def get_cameras(self) -> list[Camera]:
         query = QSqlQuery(self.db)
         if not query.exec('select * from cameras'):
@@ -28,6 +47,7 @@ class Data:
         
         cameras = []
         while query.next():
+            id = int(query.value('id'))
             connection_string = query.value('connection_string')
             if connection_string.isdigit():
                 connection_string = int(connection_string)
@@ -35,7 +55,7 @@ class Data:
             fps = query.value('fps')
             resolution = tuple(map(int, query.value('resolution').split()))
 
-            cameras.append(Camera(connection_string, name, fps, resolution))
+            cameras.append(Camera(id, connection_string, name, fps, resolution))
 
         return cameras
     
@@ -197,3 +217,12 @@ class Data:
         ''', {
             ':zone_id': zone_id
         })
+    
+    def delete_zone_by_camera_id(self, camera_id):
+        self.execute_query('''
+        DELETE FROM zones
+        WHERE camera_id = :camera_id;
+        ''', {
+            ':camera_id': camera_id
+        })
+    

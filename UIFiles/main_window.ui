@@ -173,6 +173,7 @@ QComboBox:item:checked
     </property>
     <addaction name="settings"/>
     <addaction name="cameras_settings"/>
+    <addaction name="zone_settings"/>
    </widget>
    <addaction name="menu"/>
   </widget>
@@ -194,6 +195,11 @@ QComboBox:item:checked
   <action name="cameras_settings">
    <property name="text">
     <string>Настройки камер</string>
+   </property>
+  </action>
+  <action name="zone_settings">
+   <property name="text">
+    <string>Настройки зонирования</string>
    </property>
   </action>
  </widget>

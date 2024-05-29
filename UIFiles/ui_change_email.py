@@ -106,13 +106,13 @@ class Ui_EmailPathChanging(object):
 
         self.horizontalLayout.addWidget(self.lbl_reciever)
 
-        self.le_email_reciever = QLineEdit(self.frame_2)
-        self.le_email_reciever.setObjectName(u"le_email_reciever")
-        self.le_email_reciever.setStyleSheet(u"font-size: 16px;\n"
+        self.le_reciever_email = QLineEdit(self.frame_2)
+        self.le_reciever_email.setObjectName(u"le_reciever_email")
+        self.le_reciever_email.setStyleSheet(u"font-size: 16px;\n"
 "color: white;\n"
 "padding-left: 5px;")
 
-        self.horizontalLayout.addWidget(self.le_email_reciever)
+        self.horizontalLayout.addWidget(self.le_reciever_email)
 
         self.btn_save_reciever = QPushButton(self.frame_2)
         self.btn_save_reciever.setObjectName(u"btn_save_reciever")
@@ -200,7 +200,7 @@ class Ui_EmailPathChanging(object):
         self.lbl_reciever.setText(QCoreApplication.translate("EmailPathChanging", u"\u041f\u043e\u0447\u0442\u0430, \u043a\u0443\u0434\u0430\n"
 "\u0431\u0443\u0434\u0443\u0442 \u043f\u0440\u0438\u0445\u043e\u0434\u0438\u0442\u044c\n"
 "\u0443\u0432\u0435\u0434\u043e\u043c\u043b\u0435\u043d\u0438\u044f:", None))
-        self.le_email_reciever.setPlaceholderText(QCoreApplication.translate("EmailPathChanging", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0430\u0434\u0440\u0435\u0441 \u043f\u043e\u0447\u0442\u044b", None))
+        self.le_reciever_email.setPlaceholderText(QCoreApplication.translate("EmailPathChanging", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0430\u0434\u0440\u0435\u0441 \u043f\u043e\u0447\u0442\u044b", None))
         self.btn_save_reciever.setText(QCoreApplication.translate("EmailPathChanging", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c", None))
         self.lbl_video_path.setText(QCoreApplication.translate("EmailPathChanging", u"\u041f\u0430\u043f\u043a\u0430, \u043a\u0443\u0434\u0430\n"
 "\u0431\u0443\u0434\u0443\u0442 \u0441\u043e\u0445\u0440\u0430\u043d\u044f\u0442\u044c\u0441\u044f\n"
