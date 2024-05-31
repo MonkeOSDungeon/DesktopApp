@@ -177,7 +177,7 @@ class VideoThread(QThread):
                         self.start_detection_time = time.strftime('%d.%m.%Y_%H-%M-%S', time.localtime())
                         fourcc = cv2.VideoWriter_fourcc(*'MJPG')
                         output_filename = f'{self.video_path}{self.start_detection_time}.avi'
-                        self.video_writer = cv2.VideoWriter(output_filename, fourcc, 30.0, (1280, 720))
+                        self.video_writer = cv2.VideoWriter(output_filename, fourcc, self.camera.camera_fps, self.camera.resolution)
                     self.save(main_frame)
                     
                     if any(was_human_detected_in_zone) and self.sender_server and self.reciever_to_alert and time.time() - last_send > NOTIFICATION_FREQ:
@@ -250,7 +250,7 @@ class HumanDetectorDesktopApp(QMainWindow):
         self.zones = self.data.get_zones()
         self.detector = Detector(resolution=(1280, 720), polygons_arr=[[0,0,0,0,0,0,0,0]])
         # activate people detection every n frames, if 1 - always active 
-        self.activate_detector_every_n_frames = 7
+        self.activate_detector_every_n_frames = 5
 
         self.cameras = self.data.get_cameras()
         #self.cameras = [Camera(first_camera_path, 30, (1280, 720))]
