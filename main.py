@@ -450,8 +450,8 @@ class HumanDetectorDesktopApp(QMainWindow):
         print(self.ui_settings_window.le_sender_pass.text(), '\n\n')
         self.email_server = Email_server(
             self.ui_settings_window.le_sender_email.text(),
-            'phfm ysxx evul awtr'
-            #self.ui_settings_window.le_sender_pass.text()
+            #'phfm ysxx evul awtr'
+            self.ui_settings_window.le_sender_pass.text()
         )
         if self.reciever_email:
             self.thread.set_email_settings(self.email_server, self.reciever_email)
